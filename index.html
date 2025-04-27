@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dei-Gratia Hostel Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.0/cdn.min.js" defer></script>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #dbeafe;
+      --secondary: #f8fafc;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      --radius: 0.75rem;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      padding: 3rem 1rem;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    header h1 {
+      margin: 0;
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    header p {
+      margin-top: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    .hero-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-top: -3rem;
+      box-shadow: var(--shadow);
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    
+    .card-header {
+      padding: 1.75rem;
+      background: var(--secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .card-header h2 {
+      color: var(--text);
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .card-body {
+      padding: 1.75rem;
+    }
+    
+    .room-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .room-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .room-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary-light);
+    }
+    
+    .room-image {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+    }
+    
+    .room-details {
+      padding: 1.25rem;
+    }
+    
+    .room-title {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+    }
+    
+    .room-title svg {
+      color: var(--primary);
+    }
+    
+    .room-price {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .room-capacity {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.25rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.875rem 1.75rem;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-full {
+      width: 100%;
+    }
+    
+    .payment-methods {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    
+    .payment-method {
+      flex: 1;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .payment-method:hover {
+      background: var(--secondary);
+    }
+    
+    .payment-method.active {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.08);
+    }
+    
+    .payment-method svg {
+      color: var(--primary);
+    }
+    
+    .file-upload {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .file-upload:hover {
+      background: var(--secondary);
+      border-color: #cbd5e1;
+    }
+    
+    .file-upload svg {
+      display: block;
+      margin: 0 auto 1rem;
+      color: var(--primary);
+    }
+    
+    .file-upload-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .file-selected-name {
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    footer {
+      background: white;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.75rem;
+      margin: 3.5rem 0;
+    }
+    
+    .feature {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    
+    .feature:hover {
+      transform: translateY(-4px);
+    }
+    
+    .feature svg {
+      display: block;
+      margin: 0 auto 1.25rem;
+      color: var(--primary);
+      width: 48px;
+      height: 48px;
+    }
+    
+    .feature h3 {
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .feature p {
+      color: var(--text-light);
+      font-size: 0.9375rem;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 1.25rem 1.75rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      max-width: 350px;
+    }
+    
+    .toast svg {
+      flex-shrink: 0;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .booking-step {
+      display: none;
+    }
+    
+    .booking-step.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .booking-progress {
+      display: flex;
+      margin-bottom: 2rem;
+      justify-content: space-between;
+      position: relative;
+    }
+    
+    .booking-progress::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 25px;
+      height: 3px;
+      width: 100%;
+      background: var(--border);
+      z-index: 0;
+    }
+    
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+    
+    .step-circle {
+      width: 54px;
+      height: 54px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.625rem;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+    
+    .step-item.complete .step-circle,
+    .step-item.active .step-circle {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.2);
+    }
+    
+    .step-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+    
+    .step-item.active .step-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .step-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .modal-backdrop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 500px;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-backdrop.show .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    
+    .modal-close:hover {
+      color: var(--text);
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.25rem;
+      }
+      
+      .room-types {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .payment-methods {
+        flex-direction: column;
+      }
+      
+      .booking-progress {
+        overflow-x: auto;
+        padding-bottom: 1rem;
+      }
+      
+      .step-item {
+        min-width: 100px;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-image {
+        height: 250px;
+        margin-top: -2rem;
+      }
+    }
+  </style>
+</head>
+<body x-data="{
+  currentStep: 1,
+  paymentMethod: '',
+  selectedRoom: '',
+  roomPrice: '',
+  showToast: false,
+  toastMessage: '',
+  fileName: '',
+  paymentReceiptUploaded: false,
+  showConfirmation: false,
+  bookingReference: '',
+  
+  nextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  },
+  
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  },
+  
+  selectRoom(type, price) {
+    this.selectedRoom = type;
+    this.roomPrice = price;
+    this.nextStep();
+  },
+  
+  selectPayment(method) {
+    this.paymentMethod = method;
+  },
+  
+  showMessage(message) {
+    this.toastMessage = message;
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 5000);
+  },
+  
+  handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+      this.paymentReceiptUploaded = true;
+      this.showMessage('Payment receipt uploaded successfully!');
+    }
+  },
+  
+  completeBooking() {
+    // Generate a random booking reference
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let reference = '';
+    for (let i = 0; i < 8; i++) {
+      reference += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    this.bookingReference = reference;
+    
+    // Show confirmation modal
+    this.showConfirmation = true;
+  }
+}">
+
+  <header>
+    <div class="header-content">
+      <h1>Dei-Gratia Hostel</h1>
+      <p>Premium Student Accommodation at GCTU</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <img class="hero-image" src="2e.avif" alt="Dei-Gratia Hostel">
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Book Your Room for 2025/2026</h2>
+      </div>
+      
+      <div class="card-body">
+        <div class="booking-progress">
+          <div class="step-item" :class="{'active': currentStep === 1, 'complete': currentStep > 1}">
+            <div class="step-circle">1</div>
+            <div class="step-label">Choose Room</div>
+          </div>
+          <div class="step-item" :class="{'active': currentStep === 2, 'complete': currentStep > 2}">
+            <div class="step-circle">2</div>
+            <div class="step-label">Personal Details</div>
+          </div>
+          <div class="step-item" :class="{'active': currentStep === 3}">
+            <div class="step-circle">3</div>
+            <div class="step-label">Payment</div>
+          </div>
+        </div>
+        
+        <!-- Step 1: Room Selection -->
+        <div class="booking-step" :class="{'active': currentStep === 1}">
+          <h3 style="margin-bottom: 1.5rem;">Select Your Room Type</h3>
+          
+          <div class="room-types">
+            <div class="room-card">
+              <img class="room-image" src="1room.jpeg" alt="Single Room">
+              <div class="room-details">
+                <div class="room-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 18v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"></path>
+                    <path d="M5 10v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"></path>
+                    <path d="M3 18h18"></path>
+                  </svg>
+                  Single Room
+                </div>
+                <div class="room-price">GHC 3,000 <span class="room-capacity">/ semester</span></div>
+                <p class="room-capacity">Private room with study area</p>
+                <button class="btn btn-full" style="margin-top: 1.25rem;" @click="selectRoom('Single Room', 'GHC 3,000')">Select</button>
+              </div>
+            </div>
+            
+            <div class="room-card">
+              <img class="room-image" src="2room.jpeg" alt="Double Room">
+              <div class="room-details">
+                <div class="room-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 18v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"></path>
+                    <path d="M5 10v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"></path>
+                    <path d="M3 18h18"></path>
+                  </svg>
+                  Double Room
+                </div>
+                <div class="room-price">GHC 2,000 <span class="room-capacity">/ semester</span></div>
+                <p class="room-capacity">Shared with one roommate</p>
+                <button class="btn btn-full" style="margin-top: 1.25rem;" @click="selectRoom('Double Room', 'GHC 2,000')">Select</button>
+              </div>
+            </div>
+            
+            <div class="room-card">
+              <img class="room-image" src="quad.jpeg" alt="Quad Room">
+              <div class="room-details">
+                <div class="room-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 18v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"></path>
+                    <path d="M5 10v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"></path>
+                    <path d="M3 18h18"></path>
+                  </svg>
+                  Quad Room
+                </div>
+                <div class="room-price">GHC 1,500 <span class="room-capacity">/ semester</span></div>
+                <p class="room-capacity">Shared with three roommates</p>
+                <button class="btn btn-full" style="margin-top: 1.25rem;" @click="selectRoom('Quad Room', 'GHC 1,500')">Select</button>
+              </div>
+            </div>
+            
+            <div class="room-card">
+              <img class="room-image" src="six.jpeg" alt="Six-Person Room">
+              <div class="room-details">
+                <div class="room-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 18v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"></path>
+                    <path d="M5 10v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"></path>
+                    <path d="M3 18h18"></path>
+                  </svg>
+                  Six-Person Room
+                </div>
+                <div class="room-price">GHC 1,200 <span class="room-capacity">/ semester</span></div>
+                <p class="room-capacity">Shared with five roommates</p>
+                <button class="btn btn-full" style="margin-top: 1.25rem;" @click="selectRoom('Six-Person Room', 'GHC 1,200')">Select</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2: Personal Details -->
+        <div class="booking-step" :class="{'active': currentStep === 2}">
+          <h3 style="margin-bottom: 1.5rem;">Your Information</h3>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name</label>
+              <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="studentId">Student ID</label>
+              <input type="text" id="studentId" class="form-control" placeholder="Enter your student ID" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="program">Program of Study</label>
+            <input type="text" id="program" class="form-control" placeholder="Enter your program" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="year">Year of Study</label>
+            <select id="year" class="form-control" required>
+              <option value="">Select year</option>
+              <option value="1">Year 1</option>
+              <option value="2">Year 2</option>
+              <option value="3">Year 3</option>
+              <option value="4">Year 4</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Selected Room</label>
+            <div style="padding: 1rem; background: var(--primary-light); border-radius: var(--radius);">
+              <strong x-text="selectedRoom"></strong> - <span x-text="roomPrice"></span>
+            </div>
+          </div>
+          
+          <div class="step-nav">
+            <button class="btn" @click="prevStep">Back</button>
+            <button class="btn" @click="nextStep">Continue to Payment</button>
+          </div>
+        </div>
+        
+        <!-- Step 3: Payment -->
+        <div class="booking-step" :class="{'active': currentStep === 3}">
+          <h3 style="margin-bottom: 1.5rem;">Payment Information</h3>
+          
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <div class="payment-methods">
+              <div class="payment-method" :class="{'active': paymentMethod === 'mobile-money'}" @click="selectPayment('mobile-money')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <path d="M2 10h20"></path>
+                  <path d="M7 14h.01"></path>
+                  <path d="M11 14h.01"></path>
+                </svg>
+                <span>Mobile Money</span>
+              </div>
+              
+              <div class="payment-method" :class="{'active': paymentMethod === 'bank-transfer'}" @click="selectPayment('bank-transfer')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Bank Transfer</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group" x-show="paymentMethod === 'mobile-money'">
+            <label class="form-label">Mobile Money Number</label>
+            <input type="tel" class="form-control" placeholder="Enter your mobile money number">
+          </div>
+          
+          <div class="form-group" x-show="paymentMethod === 'bank-transfer'">
+            <label class="form-label">Bank Account Details</label>
+            <div style="background: var(--secondary); padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem;">
+              <p><strong>Bank Name:</strong> Ghana Commercial Bank</p>
+              <p><strong>Account Name:</strong> Dei-Gratia Hostel</p>
+              <p><strong>Account Number:</strong> 1234567890</p>
+              <p><strong>Branch:</strong> GCTU Branch</p>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Upload Payment Receipt</label>
+            <div class="file-upload">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p>Click to upload payment receipt</p>
+              <p class="file-selected-name" x-text="fileName" x-show="fileName"></p>
+              <input type="file" class="file-upload-input" @change="handleFileUpload">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Booking Summary</label>
+            <div style="background: var(--secondary); padding: 1.25rem; border-radius: var(--radius);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                <span>Room Type:</span>
+                <span x-text="selectedRoom"></span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                <span>Price:</span>
+                <span x-text="roomPrice"></span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                <span>Payment Method:</span>
+                <span x-text="paymentMethod === 'mobile-money' ? 'Mobile Money' : 'Bank Transfer'"></span>
+              </div>
+              <div style="border-top: 1px solid var(--border); margin: 1rem 0; padding-top: 1rem; display: flex; justify-content: space-between; font-weight: 600;">
+                <span>Total:</span>
+                <span x-text="roomPrice"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">
+              <input type="checkbox" required> I agree to the <a href="#" style="color: var(--primary);">terms and conditions</a>
+            </label>
+          </div>
+          
+          <div class="step-nav">
+            <button class="btn" @click="prevStep">Back</button>
+            <button class="btn" @click="completeBooking" :disabled="!paymentReceiptUploaded">Complete Booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <h3>24/7 Support</h3>
+        <p>Our staff is available round the clock to assist with any issues or questions.</p>
+      </div>
+      
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <h3>Prime Location</h3>
+        <p>Just 5 minutes walk to GCTU campus with easy access to all facilities.</p>
+      </div>
+      
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 8v4l3 3"></path>
+        </svg>
+        <h3>Study Areas</h3>
+        <p>Quiet study rooms and high-speed WiFi to support your academic success.</p>
+      </div>
+      
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+          <line x1="6" y1="1" x2="6" y2="4"></line>
+          <line x1="10" y1="1" x2="10" y2="4"></line>
+          <line x1="14" y1="1" x2="14" y2="4"></line>
+        </svg>
+        <h3>Laundry Services</h3>
+        <p>On-site laundry facilities available for all residents.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast Notification -->
+  <div class="toast" :class="{'show': showToast}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span x-text="toastMessage"></span>
+  </div>
+  
+  <!-- Confirmation Modal -->
+  <div class="modal-backdrop" :class="{'show': showConfirmation}">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Booking Confirmed!</h3>
+        <button class="modal-close" @click="showConfirmation = false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <p style="text-align: center; margin-bottom: 1.5rem;">Your booking for <strong x-text="selectedRoom"></strong> has been confirmed!</p>
+        
+        <div style="background: var(--secondary); padding: 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+          <p style="text-align: center; margin-bottom: 0.75rem;"><strong>Booking Reference:</strong></p>
+          <p style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--primary);" x-text="bookingReference"></p>
+        </div>
+        
+        <p style="text-align: center; color: var(--text-light); font-size: 0.9375rem;">
+          A confirmation email has been sent to you. Please present this reference number when checking in.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" @click="showConfirmation = false">Close</button>
+        <button class="btn" style="background: #10b981;" @click="window.print()">Print Confirmation</button>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 Dei-Gratia Hostel. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;">Ghana Communication Technology University, Accra</p>
+    <p style="margin-top: 0.5rem;">Designed by F.K.D</p>
+  </footer>
+</body>
+</html>
